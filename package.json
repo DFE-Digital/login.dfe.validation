@@ -24,7 +24,11 @@
     "eslint-plugin-import": "^2.8.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",
+    "eslint-plugin-jest": "^21.2.0",
     "jest": "^21.2.1",
     "jest-cli": "^21.2.1"
+  },
+  "dependencies": {
+    "email-validator": "^1.1.1"
   }
 }
