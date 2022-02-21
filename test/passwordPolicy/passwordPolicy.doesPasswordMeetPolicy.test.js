@@ -114,5 +114,16 @@ describe('When checking if a password meets the new policy', () => {
   });
 });
 
+describe('Checking if password is in deny list', () => {
+  it('should return false if password is not in the deny list', () => {
+    const actual = passwordPolicy.isPasswordBlackListed('12QWaszx');
+    expect(actual).toBe(false);
+  });
+  
+  it('should return true if password is in deny list', () => {
+    const actual = passwordPolicy.isPasswordBlackListed('1q2w3e4r5t6y7u8i9o0p');
+    expect(actual).toBe(true);
+  });
+});
 
 
