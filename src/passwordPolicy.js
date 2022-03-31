@@ -23,7 +23,8 @@ const doesPasswordMeetNewPolicy = (password) => {
 };
 
 const isPasswordBlackListed = (password) => {
-  return blacklistedPasswords().includes(password)
+  const blacklistedPasswordsList = process.env.blacklistedPasswords || blacklistedPasswords();
+  return blacklistedPasswordsList.some(blacklistedpassword =>  blacklistedpassword.toLowerCase() === password.toLowerCase())
 }
 
 const blacklistedPasswords = () => {
