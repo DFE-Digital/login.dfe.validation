@@ -20,6 +20,8 @@ Used to validate if a give password meets the password policy
 const passwordPolicy = require('login.dfe.validation').passwordPolicy;
 
 const passwordMeetsPolicy = passwordPolicy.doesPasswordMeetPolicy('some-password');
+
+const isPasswordBlackListed = passwordPolicy.isPasswordBlackListed('some-password');
 ```
 
 # Express Validator Helpers
