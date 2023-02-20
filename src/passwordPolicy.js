@@ -1,4 +1,5 @@
-const blacklistedPasswords = require('../utils/blacklistedPasswords');
+const dfeBlacklistedPasswords = require('../utils/blacklistedPasswords');
+const ncscBlacklistedPasswords = require('../utils/PwnedPasswordsTop100k.json');
 
 const doesPasswordMeetPolicy = (password) => {
   if (!password || !password.match(/^.{12,64}$/)) {
@@ -25,7 +26,10 @@ const doesPasswordMeetNewPolicy = (password) => {
 };
 
 
-const isPasswordBlackListed = password => blacklistedPasswords.some(bp => bp.toLowerCase() === password.toLowerCase());
+const isPasswordBlackListed = (password) => {
+  const blacklistedPasswordList = [...dfeBlacklistedPasswords, ...ncscBlacklistedPasswords];
+  return blacklistedPasswordList.some(bp => bp.toLowerCase() === password.toLowerCase());
+};
 
 
 module.exports = {
