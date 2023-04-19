@@ -12,11 +12,11 @@ const testBlacklisted = (email, emailBlacklisted) => {
   let re;
 
   if (fragments[0] === '') {
-    re = new RegExp(`@${fragments[1]}$`);
+    re = new RegExp(`@${fragments[1]}$`, 'i');
   } else if (fragments[1] === '') {
-    re = new RegExp(`^${fragments[0]}[.\\-_]?\\d*@`);
+    re = new RegExp(`^${fragments[0]}[.\\-_]?\\d*@`, 'i');
   } else {
-    re = new RegExp(`^${fragments[0]}[.\\-_]?\\d*@${fragments[1]}$`);
+    re = new RegExp(`^${fragments[0]}[.\\-_]?\\d*@${fragments[1]}$`, 'i');
   }
 
   return re.test(email);
