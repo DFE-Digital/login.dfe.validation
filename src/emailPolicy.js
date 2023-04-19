@@ -1,11 +1,9 @@
-"use strict";
+'use strict';
 
 const emailValidator = require('email-validator');
 const blacklistedEmails = require('../utils/blacklistedEmails');
 
-const doesEmailMeetPolicy = (email) => {
-  return emailValidator.validate(email)
-};
+const doesEmailMeetPolicy = (email) => emailValidator.validate(email);
 
 const testBlacklisted = (email, emailBlacklisted) => {
   const fragments = emailBlacklisted.split('@');
@@ -20,7 +18,7 @@ const testBlacklisted = (email, emailBlacklisted) => {
   }
 
   return re.test(email);
-}
+};
 
 const isBlacklistedEmail = (email) => blacklistedEmails.some((blacklisted) => testBlacklisted(email, blacklisted));
 
