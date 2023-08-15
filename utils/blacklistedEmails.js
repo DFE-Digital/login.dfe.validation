@@ -134,6 +134,16 @@ const blacklistedEmails = [
   'govclerk@',
   'governor@',
   'hello@',
+  'comcast.net',
+  'mail.ru',
+  'verizon.net',
+  'list.ru',
+  'yahoo.ca',
+  'hotmail.ca',
+  'live.com',
+  'att.net',
+  'frontiernet.net',
+  'fast.net'
 ];
 
 module.exports = blacklistedEmails;
