@@ -143,7 +143,7 @@ const blacklistedEmails = [
   'EHT@',
   'govclerk@',
   'governor@',
-  'hello@'
+  'hello@',
 ];
 
 module.exports = blacklistedEmails;
