@@ -31,7 +31,7 @@ const formatValidatorErrors = function (errors) {
             ]
         } else {
             prettyErrorsLog.push({
-                name: e.param,
+                name: e.param || e.path,
                 message: e.msg
             })
         }
