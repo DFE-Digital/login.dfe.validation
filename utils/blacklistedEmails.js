@@ -22,6 +22,7 @@ const blacklistedEmails = [
   '@virginmedia.com',
   '@ymail.com',
   '@blueyonder.com',
+  '@blueyonder.co.uk',
   '@talktalk.net',
   '@rocketmail.com',
   '@lineone.net',
