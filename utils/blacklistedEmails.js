@@ -161,6 +161,14 @@ const blacklistedEmails = [
   'govclerk@',
   'governor@',
   'hello@',
+  'applications@',
+  'apprentices@',
+  'apprenticeship@',
+  'Appserviceuniversity@',
+  'NBT.Claims@',
+  'nursingschool@',
+  'training.consultants@',
+  'training@'
 ];
 
 module.exports = blacklistedEmails;
