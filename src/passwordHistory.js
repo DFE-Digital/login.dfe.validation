@@ -15,7 +15,7 @@ class PasswordHistory {
   }
 
   validate() {
-    let iterations = 1;
+    let iterations = 120000;
     if (this.userPasswordPolicyCode === 'v3') {
       iterations = 120000;
     } else {
