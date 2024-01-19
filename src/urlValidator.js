@@ -37,9 +37,10 @@ class UrlValidator {
     isValidProtocal(protocols){
         return new Promise((resolve, reject) => {
             if(this.url === undefined || this.url === "" || typeof this.url !== 'string'){
-                reject(new TypeError('is not a string or empty'));
+                reject('is not a string or empty');
             }
             try{
+                console.log(this.url);
                 const targetUrl = new URL(this.url);
                
                 resolve(protocols
@@ -48,20 +49,29 @@ class UrlValidator {
                         : false
                     : true);
             }catch(e){
-                reject(new TypeError(e));
+                console.log(e.message);
+                reject(e.message);
             }
           });
     }
-
+     /**
+     * This takes the target url and checks for illegal charcters
+     * @returns {boolean} if the url is found to have illegal characters it returns true
+     */
     hasLegalCharacters(){
         return new Promise((resolve, reject) => {
             if(this.url === undefined || this.url === "" || typeof this.url !== 'string'){
                 reject(new TypeError('is not a string or empty'));
             }
             try{
-                const expression = /[ < > # % { } -- | \ ^ ~ `]/g;
-                const regex = new RegExp(expression);
-                resolve(regex.test(this.url));
+                var urlRegex = '^(?!mailto|ftp|tcp|<>|[-\\uffff]{2,}|#|%|>|<|\\{|\\}|\\\|\\^|\\~|\\ [| \\ ]|\\|:)(?:(?:http|https)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$';
+                var test = new RegExp(urlRegex, 'i');
+                 if(test.test(this.url)){
+                    resolve(false);
+                 }else{
+                    resolve(true);
+                 }
+                
               
             }catch(e){
                 reject(new TypeError(e));
