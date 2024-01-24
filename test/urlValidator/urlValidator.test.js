@@ -6,14 +6,12 @@ test('object is newed up', () => {
     expect(validator.url).toBe(referrerUrl);
     expect(typeof validator).toBe("object");
   });
-
   test('is correct length', () => {
     const referrerUrl = 'HA77in3ss01';
     const validator = new UrlValidator(referrerUrl);
     validator.isCorrectLength(11)
     .then((result) => expect(result).toBe(true))
     .catch((err) => console.error(err));
-   
   });
 
   test('is incorrect length', () => {
@@ -22,9 +20,7 @@ test('object is newed up', () => {
     validator.isCorrectLength(10)
     .then((result) => expect(result).toBe(false))
     .catch((err) => console.error(err));
-   
   });
-
   test('is wrong type ', () => {
     const referrerUrl = 15;
     const validator = new UrlValidator(referrerUrl);
@@ -33,22 +29,61 @@ test('object is newed up', () => {
     .catch((err) => expect(err).toHaveProperty('message', 'is not a string or empty'));
    
   });
-
   test('url is undefined', () => {
     const referrerUrl = undefined;
     const validator = new UrlValidator(referrerUrl);
     validator.isCorrectLength(10)
     .then((result) => expect(result).toBe(false))
     .catch((err) => expect(err).toHaveProperty('message', 'is not a string or empty'));
+  });
+
+  test('url has no invalid characters', () => {
+    const referrerUrl = 'https://www.google.com/';
+    const validator = new UrlValidator(referrerUrl);
+    validator.IsValidUrl()
+    .then((result) => expect(result).toBe(true))
+    .catch((err) => expect(err).toHaveProperty('message', 'ReferenceError: Url is not defined'));
+  });
+
+  test('url has invalid characters', () => {
+    const referrerUrl = 'https://www.google.com#';
+    const validator = new UrlValidator(referrerUrl);
+    validator.IsValidUrl()
+    .then((result) => expect(result).toBe(false))
+    .catch((err) => expect(err).toHaveProperty('message', 'ReferenceError: Url is not defined'));
+  });
+
+  test('url has invalid [ characters', () => {
+    const referrerUrl = 'https://www.google.com/stuff[';
+    const validator = new UrlValidator(referrerUrl);
+    validator.IsValidUrl()
+    .then((result) => expect(result).toBe(false))
+    .catch((err) => expect(err).toHaveProperty('message', 'ReferenceError: Url is not defined'));
+  });
+
+  test('is valid protocol for a empty url', () => {
+    const referrerUrl = '';
+    const validator = new UrlValidator(referrerUrl);
+    validator.isValidProtocal(['http', 'https'])
+    .then((result) => expect(result).toBe(true))
+    .catch((err) => expect(err).toContain('is not a string or empty'));
+   
+  });
+  test('is valid protocol but url is invalid', () => {
+    const referrerUrl = 'jane';
+    const validator = new UrlValidator(referrerUrl);
+    validator.isValidProtocal(['http', 'https'])
+    .then((result) => expect(result).toBe(true))
+    .catch((err) => expect(err).toContain('Invalid URL'));
    
   });
 
-  test('url is empty string ', () => {
-    const referrerUrl = "";
+  test('is incorrect protocol for a url', () => {
+    const referrerUrl = 'mailto://google.com';
     const validator = new UrlValidator(referrerUrl);
-    validator.isCorrectLength(10)
+    validator.isValidProtocal(['http', 'https'])
     .then((result) => expect(result).toBe(false))
-    .catch((err) => expect(err).toHaveProperty('message', 'is not a string or empty'));
+    .catch((err) => expect(err).toHaveProperty('message', 'ReferenceError: Url is not defined'));
    
   });
   test('is correct protocol for a non encrypted url', () => {
@@ -68,37 +103,101 @@ test('object is newed up', () => {
     .catch((err) => expect(err).toHaveProperty('message', 'ReferenceError:  is not defined'));
    
   });
-
-  test('is incorrect protocol for a url', () => {
-    const referrerUrl = 'mailto://google.com';
+  test('url has invalid characters #', () => {
+    const referrerUrl = 'https://www.google.com#';
     const validator = new UrlValidator(referrerUrl);
-    validator.isValidProtocal(['http', 'https'])
+    validator.IsValidUrl()
     .then((result) => expect(result).toBe(false))
     .catch((err) => expect(err).toHaveProperty('message', 'ReferenceError: Url is not defined'));
-   
+  });
+
+  test('url has invalid ] characters', () => {
+    const referrerUrl = 'https://www.google.com/stuff]';
+    const validator = new UrlValidator(referrerUrl);
+    validator.IsValidUrl()
+    .then((result) => expect(result).toBe(false))
+    .catch((err) => expect(err).toHaveProperty('message', 'ReferenceError: Url is not defined'));
+  });
+
+  test('url has invalid ~ characters', () => {
+    const referrerUrl = 'https://www.google.com/stuff-is-~fine';
+    const validator = new UrlValidator(referrerUrl);
+    validator.IsValidUrl()
+    .then((result) => expect(result).toBe(false))
+    .catch((err) => expect(err).toHaveProperty('message', 'ReferenceError: Url is not defined'));
+  });
+
+  test('url has invalid % characters', () => {
+    const referrerUrl = 'https://www.google.com/%';
+    const validator = new UrlValidator(referrerUrl);
+    validator.IsValidUrl()
+    .then((result) => expect(result).toBe(false))
+    .catch((err) => expect(err).toHaveProperty('message', 'ReferenceError: Url is not defined'));
+  });
+
+  test('url has invalid | characters', () => {
+    const referrerUrl = 'https://www.google.com/|';
+    const validator = new UrlValidator(referrerUrl);
+    validator.IsValidUrl()
+    .then((result) => expect(result).toBe(false))
+    .catch((err) => expect(err).toHaveProperty('message', 'ReferenceError: Url is not defined'));
+  });
+
+  test('url has invalid { characters', () => {
+    const referrerUrl = 'https://www.google.com/{';
+    const validator = new UrlValidator(referrerUrl);
+    validator.IsValidUrl()
+    .then((result) => expect(result).toBe(false))
+    .catch((err) => expect(err).toHaveProperty('message', 'ReferenceError: Url is not defined'));
+  });
+
+  
+  test('url has invalid } characters', () => {
+    const referrerUrl = 'https://www.google.com/}';
+    const validator = new UrlValidator(referrerUrl);
+    validator.IsValidUrl()
+    .then((result) => expect(result).toBe(false))
+    .catch((err) => expect(err).toHaveProperty('message', 'ReferenceError: Url is not defined'));
+  });
+
+  test('url has invalid \\ characters', () => {
+    const referrerUrl = 'https://www.google.com\\';
+    const validator = new UrlValidator(referrerUrl);
+    validator.IsValidUrl()
+    .then((result) => expect(result).toBe(false))
+    .catch((err) => expect(err).toHaveProperty('message', 'ReferenceError: Url is not defined'));
   });
   
-  test('url is an empty string', () => {
-    const referrerUrl = "";
+  test('url has invalid ^ characters', () => {
+    const referrerUrl = 'https://www.google.com^';
     const validator = new UrlValidator(referrerUrl);
-    validator.isValidProtocal(['http', 'https'])
-    .then((result) => expect(result).toBe(true))
-    .catch((err) => expect(err).toHaveProperty('message', 'is not a string or empty'));
-  });
-
-  test('url has no invalid characters', () => {
-    const referrerUrl = 'https://www.google.com';
-    const validator = new UrlValidator(referrerUrl);
-    validator.hasLegalCharacters()
+    validator.IsValidUrl()
     .then((result) => expect(result).toBe(false))
     .catch((err) => expect(err).toHaveProperty('message', 'ReferenceError: Url is not defined'));
   });
 
-
-  test('url has invalid characters', () => {
-    const referrerUrl = 'https://www.google.com/my-services/cd3fc3db-21c7-4ed6-acc9-0bbf7fb1e5de/';
+  test('url has invalid space characters', () => {
+    const referrerUrl = 'https://www.goo gle.com';
     const validator = new UrlValidator(referrerUrl);
-    validator.hasLegalCharacters()
-    .then((result) => expect(result).toBe(true))
+    validator.IsValidUrl()
+    .then((result) => expect(result).toBe(false))
     .catch((err) => expect(err).toHaveProperty('message', 'ReferenceError: Url is not defined'));
   });
+
+  test('url has invalid \' characters', () => {
+    const referrerUrl = 'https://www.goo\'gle.com';
+    const validator = new UrlValidator(referrerUrl);
+    validator.IsValidUrl()
+    .then((result) => expect(result).toBe(false))
+    .catch((err) => expect(err).toHaveProperty('message', 'ReferenceError: Url is not defined'));
+  });
+
+  test('url has invalid characters but has a number as url', () => {
+    const referrerUrl = 10;
+    const validator = new UrlValidator(referrerUrl);
+    validator.IsValidUrl()
+    .then((result) => expect(result).toBe(false))
+    .catch((err) => expect(err).toContain('is not a string or empty'));
+  });
+
+  

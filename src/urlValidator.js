@@ -38,41 +38,40 @@ class UrlValidator {
         return new Promise((resolve, reject) => {
             if(this.url === undefined || this.url === "" || typeof this.url !== 'string'){
                 reject('is not a string or empty');
-            }
-            try{
-                console.log(this.url);
-                const targetUrl = new URL(this.url);
-               
-                resolve(protocols
-                    ? targetUrl.protocol
-                        ? protocols.map(x => `${x.toLowerCase()}:`).includes(targetUrl.protocol)
-                        : false
-                    : true);
-            }catch(e){
-                console.log(e.message);
-                reject(e.message);
-            }
+            }else{
+                try{
+                    const targetUrl = new URL(this.url);
+                    resolve(protocols
+                        ? targetUrl.protocol
+                            ? protocols.map(x => `${x.toLowerCase()}:`).includes(targetUrl.protocol)
+                            : false
+                        : true);
+                    }catch(e){
+                        reject(e.message);
+                    }
+                }
+           
           });
     }
      /**
      * This takes the target url and checks for illegal charcters
      * @returns {boolean} if the url is found to have illegal characters it returns true
      */
-    hasLegalCharacters(){
+     IsValidUrl(){
         return new Promise((resolve, reject) => {
             if(this.url === undefined || this.url === "" || typeof this.url !== 'string'){
-                reject(new TypeError('is not a string or empty'));
+
+                reject("is not a string or empty");
             }
             try{
-                var urlRegex = '^(?!mailto|ftp|tcp|<>|[-\\uffff]{2,}|#|%|>|<|\\{|\\}|\\\|\\^|\\~|\\ [| \\ ]|\\|:)(?:(?:http|https)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$';
-                var test = new RegExp(urlRegex, 'i');
-                 if(test.test(this.url)){
-                    resolve(false);
-                 }else{
+                let pattern = /[><\]#\[~%\|\{\}\\\^\s']+/g;
+                let result = this.url.match(pattern);
+                if(result === null)
+                {
                     resolve(true);
-                 }
-                
-              
+                }else{
+                    resolve(false);
+                }
             }catch(e){
                 reject(new TypeError(e));
             }
