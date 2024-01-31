@@ -78,7 +78,7 @@ test('object is newed up', () => {
   });
 
   test('is incorrect protocol for a url', () => {
-    const referrerUrl = 'mailto://google.com';
+    const referrerUrl = 'mailto://go ogle.com';
     const validator = new UrlValidator(referrerUrl);
     validator.isValidProtocal(['http', 'https'])
     .then((result) => expect(result).toBe(false))
