@@ -40,7 +40,7 @@ class UrlValidator {
         reject('is not a string or empty');
       } else {
         try {
-          const pattern = '^http://|https://$';
+          const pattern = '^http|https$';
           const result = new RegExp(pattern);
           resolve(result.test(this.url));
         } catch (e) {
