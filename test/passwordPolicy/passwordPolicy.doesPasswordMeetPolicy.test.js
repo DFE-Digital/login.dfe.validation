@@ -1,9 +1,14 @@
-const passwordPolicy = require('./../../src/passwordPolicy');
+const passwordPolicy = require('../../src/passwordPolicy');
 
 describe('When checking if a password meets the policy', () => {
-  describe('and the password is a valid length of between 12 and 64 characters', () => {
-    it('then it should return true if the password is 12 characters', () => {
-      const actual = passwordPolicy.doesPasswordMeetPolicy('abc123!ef46@');
+  describe('and the password is a valid length of between 14 and 64 characters', () => {
+    it('then it should return true if the password is 14 characters', () => {
+      const actual = passwordPolicy.doesPasswordMeetPolicy('jumpSouthSpray');
+
+      expect(actual).toBe(true);
+    });
+    it('then it should return true if the password is 14 characters long and includes numbers, uppercase letters, lowercase letters, symbols, and white spaces', () => {
+      const actual = passwordPolicy.doesPasswordMeetPolicy('A a12^&tes=()s');
 
       expect(actual).toBe(true);
     });
@@ -20,8 +25,8 @@ describe('When checking if a password meets the policy', () => {
   });
 
   describe('and the password is too short', () => {
-    it('then is should return false if the password is 11 characters', () => {
-      const actual = passwordPolicy.doesPasswordMeetPolicy('abc123!ef46');
+    it('then is should return false if the password is 13 characters', () => {
+      const actual = passwordPolicy.doesPasswordMeetPolicy('abc123!ef4623');
 
       expect(actual).toBe(false);
     });
@@ -63,7 +68,7 @@ describe('When checking if a password meets the new policy', () => {
 
       expect(actual).toBe(true);
     });
-    
+
     it('then it should return true if the password is 64 characters', () => {
       const actual = passwordPolicy.doesPasswordMeetNewPolicy('12QWaszxnopqrstuvwxyz1234567890!@£$%^&*()012MskWas91K2!mao');
 
@@ -95,7 +100,7 @@ describe('When checking if a password meets the new policy', () => {
 
       expect(actual).toBe(false);
     });
-  
+
     it('then is should return false if the password is blank', () => {
       const actual = passwordPolicy.doesPasswordMeetNewPolicy('');
 
@@ -124,11 +129,9 @@ describe('Checking if password is in deny list', () => {
     const actual = passwordPolicy.isPasswordBlackListed('12QWaszx');
     expect(actual).toBe(true);
   });
-  
+
   it('should return true if password is in deny list', () => {
     const actual = passwordPolicy.isPasswordBlackListed('1q2w3e4r5t6y7u8i9o0p');
     expect(actual).toBe(true);
   });
 });
-
-

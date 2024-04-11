@@ -2,10 +2,9 @@ const dfeBlacklistedPasswords = require('../utils/blacklistedPasswords');
 const ncscBlacklistedPasswords = require('../utils/PwnedPasswordsTop100k.json');
 
 const doesPasswordMeetPolicy = (password) => {
-  if (!password || !password.match(/^.{12,64}$/)) {
+  if (!password || !password.match(/^.{14,64}$/)) {
     return false;
   }
-
   return true;
 };
 
@@ -18,19 +17,17 @@ const doesPasswordMeetNewPolicy = (password) => {
 
   if (!password || !password.match(/^.{8,64}$/)) {
     return false;
-  } else if(!password.match(/(?=(.*\d){2})(?=(.*[a-z]){2})(?=(.*[A-Z]){2})/)) {
+  } if (!password.match(/(?=(.*\d){2})(?=(.*[a-z]){2})(?=(.*[A-Z]){2})/)) {
     return false;
   }
 
   return true;
 };
 
-
 const isPasswordBlackListed = (password) => {
   const blacklistedPasswordList = [...dfeBlacklistedPasswords, ...ncscBlacklistedPasswords];
-  return blacklistedPasswordList.some(bp => bp.toLowerCase() === password.toLowerCase());
+  return blacklistedPasswordList.some((bp) => bp.toLowerCase() === password.toLowerCase());
 };
-
 
 module.exports = {
   doesPasswordMeetPolicy,
