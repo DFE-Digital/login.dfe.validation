@@ -1,12 +1,7 @@
 const dfeBlacklistedPasswords = require('../utils/blacklistedPasswords');
 const ncscBlacklistedPasswords = require('../utils/PwnedPasswordsTop100k.json');
 
-const doesPasswordMeetNewPolicy = (password) => {
-  if (!password || !password.match(/^.{14,64}$/)) {
-    return false;
-  }
-  return true;
-};
+const doesPasswordMeetNewPolicy = (password) => /^.{14,64}$/.test(password);
 
 const isPasswordBlackListed = (password) => {
   const blacklistedPasswordList = [...dfeBlacklistedPasswords, ...ncscBlacklistedPasswords];

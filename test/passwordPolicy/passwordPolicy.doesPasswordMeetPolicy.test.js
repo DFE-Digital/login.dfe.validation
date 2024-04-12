@@ -31,7 +31,7 @@ describe('When checking if a password meets the policy', () => {
       expect(actual).toBe(false);
     });
     it('then is should return false if the password is 6 characters', () => {
-      const actual = passwordPolicy.doesPasswordMeetNewPolicy('abc123!ef46');
+      const actual = passwordPolicy.doesPasswordMeetNewPolicy('abc123');
 
       expect(actual).toBe(false);
     });
