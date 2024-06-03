@@ -6,7 +6,7 @@ resources:
       type: github
       endpoint: DfE-Digital
       name: DFE-Digital/login.dfe.devops
-      ref: poc/entra-id-integration
+      ref: main
 
 trigger:
   branches:
