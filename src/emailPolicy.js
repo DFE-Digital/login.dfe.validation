@@ -1,26 +1,21 @@
-'use strict';
-
 const emailValidator = require('email-validator');
 const blacklistedEmails = require('../utils/blacklistedEmails');
 
+const blacklistedEmailPatterns = blacklistedEmails
+  .map((blackListedEmail) => {
+    const fragments = blackListedEmail.split('@');
+    if (fragments[0] === '') {
+      return RegExp(`@${fragments[1]}$`, 'i');
+    } else if (fragments[1] === '') {
+      return RegExp(`^${fragments[0]}[.\\-_]?\\d*@`, 'i');
+    } else {
+      return RegExp(`^${fragments[0]}[.\\-_]?\\d*@${fragments[1]}$`, 'i');
+    }
+  });
+
 const doesEmailMeetPolicy = (email) => emailValidator.validate(email);
 
-const testBlacklisted = (email, emailBlacklisted) => {
-  const fragments = emailBlacklisted.split('@');
-  let re;
-
-  if (fragments[0] === '') {
-    re = new RegExp(`@${fragments[1]}$`, 'i');
-  } else if (fragments[1] === '') {
-    re = new RegExp(`^${fragments[0]}[.\\-_]?\\d*@`, 'i');
-  } else {
-    re = new RegExp(`^${fragments[0]}[.\\-_]?\\d*@${fragments[1]}$`, 'i');
-  }
-
-  return re.test(email);
-};
-
-const isBlacklistedEmail = (email) => blacklistedEmails.some((blacklisted) => testBlacklisted(email, blacklisted));
+const isBlacklistedEmail = (email) => blacklistedEmailPatterns.some(pattern => pattern.test(email));
 
 module.exports = {
   doesEmailMeetPolicy,
