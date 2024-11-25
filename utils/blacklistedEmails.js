@@ -40,6 +40,7 @@ const blacklistedEmails = [
   '@att.net',
   '@frontiernet.net',
   '@fast.net',
+  '@starmail.net',
   'admin_office@',
   'admin_officer@',
   'admin_team@',
