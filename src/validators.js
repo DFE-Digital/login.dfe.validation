@@ -1,19 +1,21 @@
-const { validationResult } = require('express-validator');
+const { validationResult } = require("express-validator");
 
 /**
  * A Utility function to make testing error middleware easier
  * where Supertest cannot be used. Create an array of the express-validator
  * middleware and pass it with a fake request to generate an errors array
  * @param {Function[]}  validators  express validators array
- * @param {Object}      req         mocked request 
- * @returns 
+ * @param {Object}      req         mocked request
+ * @returns
  */
-const testValidatorArray = async function(validators,req){
- await Promise.all(validators.map(async v =>{
-    await v(req,{},()=>{});
-  }));
+const testValidatorArray = async function (validators, req) {
+  await Promise.all(
+    validators.map(async (v) => {
+      await v(req, {}, () => {});
+    }),
+  );
   return formatValidatorErrors(validationResult(req).array());
-}
+};
 
 /**
  * Formats the standard response from express-validator
@@ -22,22 +24,22 @@ const testValidatorArray = async function(validators,req){
  * expected output
  */
 const formatValidatorErrors = function (errors) {
-    let prettyErrorsLog = [];
-    for (const e of errors) {
-        if (e.nestedErrors) {
-            prettyErrorsLog = [
-                ...prettyErrorsLog,
-                ...formatValidatorErrors(e.nestedErrors)
-            ]
-        } else {
-            prettyErrorsLog.push({
-                name: e.param || e.path,
-                message: e.msg
-            })
-        }
+  let prettyErrorsLog = [];
+  for (const e of errors) {
+    if (e.nestedErrors) {
+      prettyErrorsLog = [
+        ...prettyErrorsLog,
+        ...formatValidatorErrors(e.nestedErrors),
+      ];
+    } else {
+      prettyErrorsLog.push({
+        name: e.param || e.path,
+        message: e.msg,
+      });
     }
-    return prettyErrorsLog;
-}
+  }
+  return prettyErrorsLog;
+};
 
 /**
  * Converts the array of objects to array of strings
@@ -47,9 +49,9 @@ const formatValidatorErrors = function (errors) {
  * @param   {string}   errors[].message
  * @returns {string[]}
  */
-const legacy = function(errors){
-    return errors.map(e=>`${e.name} ${e.message}`);
-}
+const legacy = function (errors) {
+  return errors.map((e) => `${e.name} ${e.message}`);
+};
 
 /**
  * Utility method for returning a non verbose error message
@@ -58,14 +60,14 @@ const legacy = function(errors){
  * @returns   {string}   errors[].name
  * @returns   {string}   errors[].message
  */
-const nonVerbose = function(){
-    return [{name:"error","message":"A validation error occurred"}]
-}
+const nonVerbose = function () {
+  return [{ name: "error", message: "A validation error occurred" }];
+};
 
 /**
- * Generates an express validator middleware 
+ * Generates an express validator middleware
  * validator function.
- * Checks to see if validation errors have 
+ * Checks to see if validation errors have
  * occurred and if so stops the middleware
  * chain.
  * @param {Object?}     opts                    Configuration options for the middleware
@@ -77,49 +79,50 @@ const nonVerbose = function(){
  * @param {boolean}     opts.loggerIncludeBody  Return the body in the logging callback if true
  */
 const validate = function (opts = {}) {
+  let defaultOpts = {
+    legacy: false,
+    testing: false,
+    verbose: true,
+    loggerCb: undefined,
+    loggerIncludeBody: false,
+    responseName: "reasons",
+  };
+  opts = { ...defaultOpts, ...opts };
 
-    let defaultOpts = {
-        legacy: false,
-        testing: false,
-        verbose: true,
-        loggerCb: undefined,
-        loggerIncludeBody:false,
-        responseName:"reasons"
+  return (req, res, next) => {
+    const errors = validationResult(req);
+    if (errors.isEmpty()) {
+      return next();
     }
-    opts = { ...defaultOpts, ...opts };
+    let formattedErrors = formatValidatorErrors(errors.array());
 
-    return (req, res, next) => {
-        const errors = validationResult(req)
-        if (errors.isEmpty()) {
-            return next();
-        }
-        let formattedErrors = formatValidatorErrors(errors.array());
-
-        //if we have a call back for logging call it
-        if (opts.loggerCb) {
-            let loggerData = {
-                validationErrors:formattedErrors,
-                body:opts.loggerIncludeBody?req.body:null
-            };
-            opts.loggerCb(JSON.stringify(loggerData));
-        }
-        //if we are running in test mode, return as normal
-        if (opts.testing) {
-            return next();
-        }
-        //if legacy, return plain string array
-        if(opts.legacy){
-            return res.status(400).json({
-                [opts.responseName]: opts.verbose ? legacy(formattedErrors) : legacy(nonVerbose())
-            })
-        }
-        //if new send back object array
-        return res.status(400).json({
-            [opts.responseName]: opts.verbose ? formattedErrors : nonVerbose()
-        })
+    //if we have a call back for logging call it
+    if (opts.loggerCb) {
+      let loggerData = {
+        validationErrors: formattedErrors,
+        body: opts.loggerIncludeBody ? req.body : null,
+      };
+      opts.loggerCb(JSON.stringify(loggerData));
     }
-}
+    //if we are running in test mode, return as normal
+    if (opts.testing) {
+      return next();
+    }
+    //if legacy, return plain string array
+    if (opts.legacy) {
+      return res.status(400).json({
+        [opts.responseName]: opts.verbose
+          ? legacy(formattedErrors)
+          : legacy(nonVerbose()),
+      });
+    }
+    //if new send back object array
+    return res.status(400).json({
+      [opts.responseName]: opts.verbose ? formattedErrors : nonVerbose(),
+    });
+  };
+};
 module.exports = {
-    validate,
-    testValidatorArray
-}
+  validate,
+  testValidatorArray,
+};
