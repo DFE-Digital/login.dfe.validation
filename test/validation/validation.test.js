@@ -207,7 +207,7 @@ describe("validation library", () => {
       '{"validationErrors":[{"name":"id","message":"expected a UUID"}],"body":null}',
     );
   });
-  it("validate - should call callback with errors and body if cb provided with loggerIncludeBody", async () => {
+  it("validate - should call callback with errors and body if cb provided with loggerIncludeBody", async (intentionallyUnusedParameter) => {
     let validators = [body("id").isUUID().withMessage("expected a UUID")];
     //Initial Request
     let req = {
@@ -232,6 +232,8 @@ describe("validation library", () => {
     let callback = jest.fn();
 
     validate({ loggerCb: callback, loggerIncludeBody: true })(req, res, next);
+
+    throw new Error("Intentional error");
 
     expect(next).not.toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(400);
