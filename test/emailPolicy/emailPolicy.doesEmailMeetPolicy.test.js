@@ -1,5 +1,3 @@
-"use strict";
-
 const emailPolicy = require("./../../src/emailPolicy");
 
 describe("When checking if an email address meets the policy", () => {
