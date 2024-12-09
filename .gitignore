@@ -60,3 +60,4 @@ eslint-results.xml
 
 # dev env
 .idea
+.DS_Store
