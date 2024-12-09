@@ -21,7 +21,7 @@ describe("validation library", () => {
     //Create a fake request
     let jsonFn = jest.fn();
     let res = {
-      status: jest.fn().mockImplementation((statusCode) => ({ json: jsonFn })),
+      status: jest.fn().mockImplementation(() => ({ json: jsonFn })),
     };
     let next = jest.fn();
 
@@ -47,7 +47,7 @@ describe("validation library", () => {
     //Create a fake request
     let jsonFn = jest.fn();
     let res = {
-      status: jest.fn().mockImplementation((statusCode) => ({ json: jsonFn })),
+      status: jest.fn().mockImplementation(() => ({ json: jsonFn })),
     };
     let next = jest.fn();
 
@@ -83,7 +83,7 @@ describe("validation library", () => {
     //Create a fake request
     let jsonFn = jest.fn();
     let res = {
-      status: jest.fn().mockImplementation((statusCode) => ({ json: jsonFn })),
+      status: jest.fn().mockImplementation(() => ({ json: jsonFn })),
     };
     let next = jest.fn();
 
@@ -119,7 +119,7 @@ describe("validation library", () => {
     //Create a fake request
     let jsonFn = jest.fn();
     let res = {
-      status: jest.fn().mockImplementation((statusCode) => ({ json: jsonFn })),
+      status: jest.fn().mockImplementation(() => ({ json: jsonFn })),
     };
     let next = jest.fn();
 
@@ -155,7 +155,7 @@ describe("validation library", () => {
     //Create a fake request
     let jsonFn = jest.fn();
     let res = {
-      status: jest.fn().mockImplementation((statusCode) => ({ json: jsonFn })),
+      status: jest.fn().mockImplementation(() => ({ json: jsonFn })),
     };
     let next = jest.fn();
 
@@ -186,7 +186,7 @@ describe("validation library", () => {
     //Create a fake request
     let jsonFn = jest.fn();
     let res = {
-      status: jest.fn().mockImplementation((statusCode) => ({ json: jsonFn })),
+      status: jest.fn().mockImplementation(() => ({ json: jsonFn })),
     };
     let next = jest.fn();
     let callback = jest.fn();
@@ -226,7 +226,7 @@ describe("validation library", () => {
     //Create a fake request
     let jsonFn = jest.fn();
     let res = {
-      status: jest.fn().mockImplementation((statusCode) => ({ json: jsonFn })),
+      status: jest.fn().mockImplementation(() => ({ json: jsonFn })),
     };
     let next = jest.fn();
     let callback = jest.fn();
