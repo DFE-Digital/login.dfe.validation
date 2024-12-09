@@ -21,21 +21,38 @@ variables:
   - group: dsi-global
 
 stages:
-  - stage: codeScan
-    displayName: "Scan tools"
+  - stage: codeChecks
+    displayName: Code checks
     jobs:
-      - template: pipeline/scanTools.yml@devopsTemplates
+      - template: pipeline/v2/node-project/checks.yml@devopsTemplates
         parameters:
-          useRevisedLinting: true
-          AppDeploy: true
+          nodeVersionSpec: 18.17.0
 
   - stage: publishPackage
-    displayName: "Publish package"
+    displayName: Publish Package
     dependsOn:
-      - codeScan
+      - codeChecks
     condition: in(dependencies.codeScan.result, 'Succeeded', 'Skipped')
     jobs:
-      - template: /pipeline/buildAzurePackageArtifactV2.yml@devopsTemplates
+      - template: pipeline/v2/node-project/publishPackage.yml@devopsTemplates
         parameters:
-          applicationName: validation
-          nodeVersionSpec: "18.17.0"
+          nodeVersionSpec: 18.17.0
+
+  # - stage: codeScan
+  #   displayName: "Scan tools"
+  #   jobs:
+  #     - template: pipeline/scanTools.yml@devopsTemplates
+  #       parameters:
+  #         useRevisedLinting: true
+  #         AppDeploy: true
+
+  # - stage: publishPackage
+  #   displayName: "Publish package"
+  #   dependsOn:
+  #     - codeScan
+  #   condition: in(dependencies.codeScan.result, 'Succeeded', 'Skipped')
+  #   jobs:
+  #     - template: /pipeline/buildAzurePackageArtifactV2.yml@devopsTemplates
+  #       parameters:
+  #         applicationName: validation
+  #         nodeVersionSpec: "18.17.0"
