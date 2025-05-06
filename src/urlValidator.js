@@ -1,4 +1,3 @@
-const { URL, parse } = require("url");
 /**
  * A Utility class to test for valid url's
  * @param {string}      referrerUrl  target url
@@ -72,7 +71,7 @@ class UrlValidator {
         reject("is not a string or empty");
       }
       try {
-        const pattern = /[><\]#\[~%\|\{\}\\\^\s`]+/g;
+        const pattern = /[><\]#[~%|{}\\^\s`]+/g;
         const result = this.url.match(pattern);
         if (result === null) {
           resolve(true);
