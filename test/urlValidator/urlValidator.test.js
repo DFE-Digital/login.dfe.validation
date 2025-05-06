@@ -159,7 +159,6 @@ test("url has invalid characters #", () => {
 });
 
 test("url has invalid ] characters", () => {
-  const intentionalError = "ESLINT ERROR";
   const referrerUrl = "https://www.google.com/stuff]";
   const validator = new UrlValidator(referrerUrl);
   validator
