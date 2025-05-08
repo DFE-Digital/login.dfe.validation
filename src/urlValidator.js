@@ -1,4 +1,3 @@
-const { URL, parse } = require('url');
 /**
  * A Utility class to test for valid url's
  * @param {string}      referrerUrl  target url
@@ -11,14 +10,18 @@ class UrlValidator {
   }
 
   /**
-     * This takes the target url check length
-     * @param {number}  how long the string should be
-     * @returns {boolean} if the url is too long it returns false
-     */
+   * This takes the target url check length
+   * @param {number}  how long the string should be
+   * @returns {boolean} if the url is too long it returns false
+   */
   isCorrectLength(targetLength) {
     return new Promise((resolve, reject) => {
-      if (this.url === undefined || this.url === '' || typeof this.url !== 'string') {
-        reject(new TypeError('is not a string or empty'));
+      if (
+        this.url === undefined ||
+        this.url === "" ||
+        typeof this.url !== "string"
+      ) {
+        reject(new TypeError("is not a string or empty"));
       }
       if (this.url.length <= targetLength) {
         const result = true;
@@ -31,16 +34,20 @@ class UrlValidator {
   }
 
   /**
-     * This takes the target url converts to a character
-     * @returns {boolean} if the url is not the correct protocal 'http' or https' it returns false
-     */
+   * This takes the target url converts to a character
+   * @returns {boolean} if the url is not the correct protocal 'http' or https' it returns false
+   */
   isValidProtocal() {
     return new Promise((resolve, reject) => {
-      if (this.url === undefined || this.url === '' || typeof this.url !== 'string') {
-        reject('is not a string or empty');
+      if (
+        this.url === undefined ||
+        this.url === "" ||
+        typeof this.url !== "string"
+      ) {
+        reject("is not a string or empty");
       } else {
         try {
-          const pattern = '^http|https$';
+          const pattern = "^http|https$";
           const result = new RegExp(pattern);
           resolve(result.test(this.url));
         } catch (e) {
@@ -51,16 +58,20 @@ class UrlValidator {
   }
 
   /**
-     * This takes the target url and checks for illegal charcters
-     * @returns {boolean} if the url is found to have illegal characters it returns true
-     */
+   * This takes the target url and checks for illegal charcters
+   * @returns {boolean} if the url is found to have illegal characters it returns true
+   */
   IsValidUrl() {
     return new Promise((resolve, reject) => {
-      if (this.url === undefined || this.url === '' || typeof this.url !== 'string') {
-        reject('is not a string or empty');
+      if (
+        this.url === undefined ||
+        this.url === "" ||
+        typeof this.url !== "string"
+      ) {
+        reject("is not a string or empty");
       }
       try {
-        const pattern = /[><\]#\[~%\|\{\}\\\^\s`]+/g;
+        const pattern = /[><\]#[~%|{}\\^\s`]+/g;
         const result = this.url.match(pattern);
         if (result === null) {
           resolve(true);
