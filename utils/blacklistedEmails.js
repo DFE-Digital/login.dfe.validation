@@ -105,7 +105,6 @@ const blacklistedEmails = [
   "clerktogov@",
   "coexechead@",
   "cofg@",
-  "cog@",
   "comms@",
   "compliance@",
   "contact@",
