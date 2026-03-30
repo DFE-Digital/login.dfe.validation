@@ -167,6 +167,7 @@ const blacklistedEmails = [
   "manager@",
   "marketing@",
   "MIS@",
+  "mail@",
   "NBT.Claims@",
   "nursingschool@",
   "office@",
