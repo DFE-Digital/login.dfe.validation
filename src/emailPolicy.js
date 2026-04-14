@@ -6,9 +6,9 @@ const blacklistedEmailPatterns = blacklistedEmails.map((blackListedEmail) => {
   if (fragments[0] === "") {
     return RegExp(`@${fragments[1]}$`, "i");
   } else if (fragments[1] === "") {
-    return RegExp(`^${fragments[0]}[.\\-_]?\\d*@`, "i");
+    return RegExp(`^${fragments[0]}[.\\-_a-z0-9]*@`, "i");
   } else {
-    return RegExp(`^${fragments[0]}[.\\-_]?\\d*@${fragments[1]}$`, "i");
+    return RegExp(`^${fragments[0]}[.\\-_a-z0-9]*@${fragments[1]}$`, "i");
   }
 });
 
