@@ -209,7 +209,6 @@ const blacklistedEmails = [
   "sltsec@",
   "sltsupport@",
   "sports@",
-  "staff@",
   "student@",
   "studentdata@",
   "studentmarketing@",
