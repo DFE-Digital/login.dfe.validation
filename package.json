@@ -1,6 +1,6 @@
 {
   "name": "login.dfe.validation",
-  "version": "2.1.10",
+  "version": "2.1.11-prerelease",
   "description": "",
   "main": "src/index.js",
   "scripts": {
